@@ -7,10 +7,11 @@ const ResponseSchema = new mongoose.Schema(
     responses: {
       type: [
         {
-          question: { id: String, title: String },
+          question: { id: mongoose.Schema.Types.ObjectId, title: String },
           answer: String,
         },
       ],
+      required: true,
     },
     responder: {
       fullName: { type: String, required: true },

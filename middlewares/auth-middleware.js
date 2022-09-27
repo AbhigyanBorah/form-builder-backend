@@ -33,6 +33,7 @@ async function authMiddleware(req, res, next) {
     /* If the error is something else other than TokenExpiredError return Unauthorized error. 
       Which means the client has modified the tokens and also clear the cookies.
     */
+    console.log(error);
     if (error.name === 'JsonWebTokenError') {
       tokenService.clearCookies(res);
       return next(httpErrors.Unauthorized('Session expired. Login again.'));

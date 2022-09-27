@@ -1,9 +1,7 @@
-const Joi = require('joi');
 const httpErrors = require('http-errors');
 const userService = require('../services/user-service');
 const tokenService = require('../services/token-service');
 const UserDto = require('../dtos/user-dto');
-const JoiValidateOptions = require('../constants/joiOptions');
 const authService = require('../services/auth-service');
 const hashService = require('../services/hash-service');
 

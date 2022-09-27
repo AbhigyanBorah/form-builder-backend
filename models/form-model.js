@@ -8,12 +8,7 @@ const FormSchema = new mongoose.Schema(
     title: { type: String, required: true },
     description: { type: String, required: true },
     questions: {
-      type: [
-        {
-          id: { type: String, required: true },
-          title: { type: String, required: true },
-        },
-      ],
+      type: [{ title: { type: String, required: true } }],
       required: true,
     },
     status: {
