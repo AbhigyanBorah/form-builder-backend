@@ -17,8 +17,8 @@ class AuthController {
       if (exist) return next(httpErrors.Conflict('User already exist.'));
 
       const user = await authService.createUser(data);
-      const accessToken = await tokenService.accessToken({ id: user.id });
-      const refreshToken = await tokenService.refreshToken({ id: user.id });
+      const accessToken = await tokenService.accessToken({ id: user._id });
+      const refreshToken = await tokenService.refreshToken({ id: user._id });
 
       tokenService.setAccessToken(res, accessToken);
       tokenService.setRefreshToken(res, refreshToken);
@@ -51,8 +51,8 @@ class AuthController {
       if (!isValidPassword)
         return next(httpErrors.Unauthorized('Invalid email or password.'));
 
-      const accessToken = await tokenService.accessToken({ id: user.id });
-      const refreshToken = await tokenService.refreshToken({ id: user.id });
+      const accessToken = await tokenService.accessToken({ id: user._id });
+      const refreshToken = await tokenService.refreshToken({ id: user._id });
       tokenService.setAccessToken(res, accessToken);
       tokenService.setRefreshToken(res, refreshToken);
 
@@ -95,10 +95,11 @@ class AuthController {
       const user = await authService.findUser({ _id: tokenData.userId });
       if (!user) return next(httpErrors.NotFound("User doesn't exist."));
 
-      await tokenData?.remove();
-      const accessToken = await tokenService.accessToken({ id: user.id });
-      const refreshToken = await tokenService.refreshToken({ id: user.id });
+      await tokenService.deleteRefreshToken({ token });
+      const accessToken = await tokenService.accessToken({ id: user._id });
+      const refreshToken = await tokenService.refreshToken({ id: user._id });
 
+      tokenService.clearCookies(res);
       tokenService.setAccessToken(res, accessToken);
       tokenService.setRefreshToken(res, refreshToken);
 

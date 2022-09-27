@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const Joi = require('joi');
 const { ResponseSchema } = require('./response-model');
 
 /* Defines User Properties */
@@ -35,4 +36,11 @@ const FormSchema = new mongoose.Schema(
 );
 
 const Form = mongoose.model('Form', FormSchema);
-module.exports = { Form, FormSchema };
+
+const FormValidation = Joi.object({
+  title: Joi.string().trim().required().label('Form title'),
+  description: Joi.string().trim().required().label('Form description'),
+  questions: Joi.array().required().label('Questions'),
+});
+
+module.exports = { Form, FormSchema, FormValidation };
