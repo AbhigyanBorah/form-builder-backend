@@ -23,7 +23,7 @@ class FormService {
     };
 
     const form = new Form(data);
-    user.forms.push(form);
+    user.forms.push(form.id);
     await user.save();
     return form.save();
   }
