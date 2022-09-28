@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const Joi = require('joi');
-const { FormSchema } = require('./form-model');
 
 /* Defines User Properties */
 const UserSchema = new mongoose.Schema(

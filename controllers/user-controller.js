@@ -9,6 +9,11 @@ class UserController {
   async updatePersonalInfo(req, res, next) {
     try {
       const personalInfo = await userService.validatePersonalInfo(req.body);
+      if (personalInfo.email) {
+        const exist = await authService.findUser({ email: personalInfo.email });
+        if (exist)
+          return next(httpErrors.Conflict('Email already registered.'));
+      }
       const user = await userService.updatePersonalInfo(req.user, personalInfo);
 
       return res.status(200).json({
