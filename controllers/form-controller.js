@@ -1,6 +1,6 @@
-const formService = require('../services/form-service');
-const httpErrors = require('http-errors');
-const FormDto = require('../dtos/form-dto');
+const formService = require("../services/form-service");
+const httpErrors = require("http-errors");
+const FormDto = require("../dtos/form-dto");
 
 class FormController {
   async createForm(req, res, next) {
@@ -18,6 +18,7 @@ class FormController {
         error.status = 422;
         return next(error);
       }
+      console.log("error - ", { error });
       if (httpErrors.isHttpError(error)) return next(error);
       return next(httpErrors.InternalServerError());
     }
@@ -41,6 +42,7 @@ class FormController {
     try {
       const { pageNumber = 1, pageSize = 10 } = req.query;
       const paginatedForms = await formService.getForms(pageNumber, pageSize);
+      console.log("form result - ", paginatedForms);
       return res.status(200).json({
         success: true,
         forms: paginatedForms.map((form) => new FormDto(form)),
@@ -53,7 +55,7 @@ class FormController {
   async delete(req, res, next) {
     try {
       const { formId } = req.body;
-      if (!formId) next(httpErrors.BadRequest('Form id required.'));
+      if (!formId) next(httpErrors.BadRequest("Form id required."));
 
       const form = await formService.findOne(formId);
       if (!form) return next(httpErrors.NotFound("Form doesn't exist."));
@@ -64,7 +66,7 @@ class FormController {
 
       return res.status(200).json({
         success: true,
-        message: 'Form deleted.',
+        message: "Form deleted.",
       });
     } catch (error) {
       return next(httpErrors.InternalServerError());
@@ -74,7 +76,7 @@ class FormController {
   async update(req, res, next) {
     try {
       const { formId, data } = req.body;
-      if (!formId) next(httpErrors.BadRequest('Form id required.'));
+      if (!formId) next(httpErrors.BadRequest("Form id required."));
 
       const form = await formService.findOne(formId);
       if (!form) return next(httpErrors.NotFound("Form doesn't exist."));

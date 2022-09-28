@@ -1,16 +1,20 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 /* Defines User Properties */
 const ResponseSchema = new mongoose.Schema(
   {
     formId: { type: mongoose.Schema.Types.ObjectId, required: true },
+    // responses: {
+    //   type: [
+    //     {
+    //       question: { id: mongoose.Schema.Types.ObjectId, title: String },
+    //       answer: String,
+    //     },
+    //   ],
+    //   required: true,
+    // },
     responses: {
-      type: [
-        {
-          question: { id: mongoose.Schema.Types.ObjectId, title: String },
-          answer: String,
-        },
-      ],
+      type: [Object],
       required: true,
     },
     responder: {
@@ -21,8 +25,8 @@ const ResponseSchema = new mongoose.Schema(
       questionAnswered: { type: Number, required: true, default: 0 },
     },
   },
-  { timestamps: true },
+  { timestamps: true, minified: false }
 );
 
-const Response = mongoose.model('Response', ResponseSchema);
+const Response = mongoose.model("Response", ResponseSchema);
 module.exports = { Response, ResponseSchema };
