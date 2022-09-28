@@ -1,5 +1,6 @@
 const httpErrors = require('http-errors');
 const { User, UserValidation } = require('../models/user-model');
+const { Form } = require('../models/form-model');
 const JoiValidateOptions = require('../constants/joiOptions');
 const hashService = require('./hash-service');
 
@@ -19,7 +20,7 @@ class AuthService {
   }
 
   async findUser(filter) {
-    return User.findOne(filter).populate('forms').exec();
+    return await User.findOne(filter).populate('forms').exec();
   }
 }
 
