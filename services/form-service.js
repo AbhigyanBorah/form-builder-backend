@@ -27,7 +27,6 @@ class FormService {
 
   async findOne(id) {
     const isValid = isValidObjectId(id);
-    console.log(isValid);
     if (!isValid) throw httpErrors.UnprocessableEntity('Invalid id.');
     return Form.findById(id).populate('author');
   }

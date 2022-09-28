@@ -28,6 +28,7 @@ class UserController {
     try {
       // Validate passwords
       const user = await userService.updatePassword(req.user, req.body);
+      console.log(user);
       // Remove the refresh token corresponding to the user
       await tokenService.deleteRefreshToken({
         token: req.cookies.refreshToken,
@@ -40,34 +41,6 @@ class UserController {
       const refreshToken = await tokenService.refreshToken({ id: user.id });
       tokenService.setAccessToken(res, accessToken);
       tokenService.setRefreshToken(res, refreshToken);
-
-      return res.status(200).json({
-        success: true,
-        user: new UserDto(user),
-      });
-    } catch (error) {
-      return next(error);
-    }
-  }
-
-  async resetPassword(req, res, next) {
-    try {
-      const { oldPassword, newPassword } = req.body;
-
-      userService.checkNewPassword(newPassword);
-      const isValid = hashService.checkPassword(oldPassword, req.user.password);
-      if (!isValid)
-        return next(httpErrors.BadRequest("Password doesn't match."));
-      // Now check the email against user collection if any user exist with that email.
-      const user = await authService.findUser({ email });
-      if (!user)
-        return next(httpErrors.NotFound("User doesn't exist with this email."));
-      tokenService.clearCookies(res);
-      await tokenService.deleteRefreshToken({ userId: user._id });
-      // Now hash the new password and update with current user password.
-      const hashedPassword = await hashService.hashPassword(newPassword);
-      user.password = hashedPassword;
-      await user.save();
 
       return res.status(200).json({
         success: true,

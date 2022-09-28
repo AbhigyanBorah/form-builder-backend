@@ -20,6 +20,7 @@ class UserService {
     );
     if (Object.entries(personalInfo).length === 0)
       throw httpErrors.BadRequest('At least one field is required.');
+    return personalInfo;
   }
 
   async updatePassword(user, data) {
@@ -46,7 +47,6 @@ class UserService {
   }
 
   async deleteAccount(user) {
-    await cartService.clearCart(user._id);
     return user.remove();
   }
 
