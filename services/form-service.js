@@ -12,16 +12,19 @@ class FormService {
     if (!isValidForm) throw httpErrors.BadRequest('All fields are required.');
   }
 
-  async create(author, formData) {
+  async create(user, formData) {
     const data = {
       ...formData,
-      author,
+      author: user.id,
       analytics: {
         totalQuestions: formData.questions.length,
         totalResponses: 0,
       },
     };
+
     const form = new Form(data);
+    user.forms.push(form);
+    await user.save();
     return form.save();
   }
 

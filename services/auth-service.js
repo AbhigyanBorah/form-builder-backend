@@ -19,7 +19,7 @@ class AuthService {
   }
 
   async findUser(filter) {
-    return User.findOne(filter).exec();
+    return User.findOne(filter).populate('forms').exec();
   }
 }
 

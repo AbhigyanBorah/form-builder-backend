@@ -5,8 +5,10 @@ const FormDto = require('../dtos/form-dto');
 class FormController {
   async createForm(req, res, next) {
     try {
+      const { user } = req;
       await formService.validate(req.body);
-      const form = await formService.create(req.user.id, req.body);
+      const form = await formService.create(user, req.body);
+
       return res.status(201).json({
         success: true,
         form: new FormDto(form),

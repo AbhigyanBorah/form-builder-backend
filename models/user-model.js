@@ -8,8 +8,13 @@ const UserSchema = new mongoose.Schema(
     username: { type: String, required: true },
     email: { type: String, unique: true, required: true },
     password: { type: String, required: true },
-    forms: { type: [FormSchema], required: false },
-    totalForms: { type: Number, default: 0 },
+    forms: { type: [FormSchema], required: false, default: [] },
+    totalForms: {
+      type: Number,
+      default: function () {
+        return this.forms.length;
+      },
+    },
   },
   { timestamps: true },
 );
