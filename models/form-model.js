@@ -27,8 +27,8 @@ const FormSchema = new mongoose.Schema(
     },
     responses: { type: [ResponseSchema], required: false },
     author: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
+      id: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+      username: String,
       required: true,
     },
     analytics: {

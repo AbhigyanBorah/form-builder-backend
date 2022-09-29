@@ -15,7 +15,7 @@ class FormService {
   async create(user, formData) {
     const data = {
       ...formData,
-      author: user.id,
+      author: { id: user.id, username: user.username },
       analytics: {
         totalQuestions: formData.questions.length,
         totalResponses: 0,
