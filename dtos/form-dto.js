@@ -5,6 +5,7 @@ class FormDto {
     this.description = form.description;
     this.questions = form.questions;
     this.status = form.status;
+    this.formUrl = form.formUrl;
     this.responses = form.responses;
     this.author = form.author;
     this.analytics = form.analytics;

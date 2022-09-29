@@ -23,9 +23,12 @@ class FormService {
     };
 
     const form = new Form(data);
+    form.formUrl = `${process.env.FRONT_URL}/view/${form.id}`;
+    await form.save();
+
     user.forms.push(form.id);
     await user.save();
-    return form.save();
+    return form;
   }
 
   async findOne(id) {
