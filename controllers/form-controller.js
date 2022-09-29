@@ -5,7 +5,7 @@ const FormDto = require("../dtos/form-dto");
 class FormController {
   async createForm(req, res, next) {
     try {
-      const { user } = req;
+      const {user} = req;
       await formService.validate(req.body);
       const form = await formService.create(user, req.body);
 
@@ -18,7 +18,7 @@ class FormController {
         error.status = 422;
         return next(error);
       }
-      console.log("error - ", { error });
+      console.log("error - ", {error});
       if (httpErrors.isHttpError(error)) return next(error);
       return next(httpErrors.InternalServerError());
     }
@@ -26,7 +26,7 @@ class FormController {
 
   async getDetails(req, res, next) {
     try {
-      const { id } = req.params;
+      const {id} = req.params;
       const form = await formService.findOne(id);
       return res.status(200).json({
         success: true,
@@ -40,7 +40,7 @@ class FormController {
 
   async getForms(req, res, next) {
     try {
-      const { pageNumber = 1, pageSize = 10 } = req.query;
+      const {pageNumber = 1, pageSize = 10} = req.query;
       const paginatedForms = await formService.getForms(pageNumber, pageSize);
       console.log("form result - ", paginatedForms);
       return res.status(200).json({
@@ -54,7 +54,7 @@ class FormController {
 
   async delete(req, res, next) {
     try {
-      const { formId } = req.body;
+      const {formId} = req.body;
       if (!formId) next(httpErrors.BadRequest("Form id required."));
 
       const form = await formService.findOne(formId);
@@ -75,7 +75,7 @@ class FormController {
 
   async update(req, res, next) {
     try {
-      const { formId, data } = req.body;
+      const {formId, data} = req.body;
       if (!formId) next(httpErrors.BadRequest("Form id required."));
 
       const form = await formService.findOne(formId);
@@ -94,6 +94,7 @@ class FormController {
       return next(httpErrors.InternalServerError());
     }
   }
+
 }
 
 module.exports = new FormController();
